@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import { REGISTER_USER } from "../apollo/mutation/login.js";
 
-
 export const Register = () => {
   const context = useContext(AuthContext);
   const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
-
+  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPass] = useState("");
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     update(proxy, { data: { registerUser: userData } }) {
@@ -20,12 +21,13 @@ export const Register = () => {
       setErrors(graphQLErrors);
     },
     variables: {
-      registerInput: values,
+      registerInput: {  email, username, password },
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    registerUser()
   };
 
   return (
@@ -38,9 +40,26 @@ export const Register = () => {
         gap: "20px",
       }}
     >
-      <input type="text" placeholder="Login" />
-      <input type="text" placeholder="Email" />
-      <input type="text" placeholder="Password" />
+      <input
+        value={username}
+        onChange={(e) => setUserName(e.target.value)}
+        type="text"
+        placeholder="Login"
+      />
+      <input
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type="text"
+        placeholder="Email"
+      />
+      <input
+        value={password}
+        onChange={(e) => setPass(e.target.value)}
+        type="text"
+        placeholder="Password"
+      />
+
+      <button type="submit">Register</button>
     </form>
   );
 };

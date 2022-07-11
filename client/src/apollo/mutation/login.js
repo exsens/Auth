@@ -1,15 +1,12 @@
-import { gql } from "@apollo/client";
+import { gql } from "graphql-tag";
 
 export const REGISTER_USER = gql`
-  mutation registerUser($input: registerInput) {
-    registerUser(input: $input) {
-      username
-      email
-      password
-    } {
-      email
-      username
+  mutation Mutation($registerInput: RegisterInput) {
+    registerUser(registerInput: $registerInput) {
+      username,
+      email,
       token
     }
   }
 `;
+
